@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pokemon {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @db.VarChar(255)
+  level     Int
+  height    Float
+  weight    Float
+  category  String
+  abilities String
+  gender    String[]
+  type      String[]
+  weakness  String[]
+  Stats     Stats?
+}
+
+model Stats {
+  id               String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  hp               Int
+  attack           Int
+  defense          Int
+  special_attack   Int
+  special_deffense Int
+  speed            Int
+  pokemon          Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pokemonId        String  @unique @db.Uuid
+}
+
+model Team {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+}

@@ -1,0 +1,80 @@
+### Variables
+@apiurl = http://localhost:3001
+@jwt = {{$processEnv [%]TOKEN}}
+# @admin_password = {{$processEnv [%]ADMIN_PASSWORD}}
+
+
+
+
+# #############
+# USER
+# #############
+
+### List users
+GET {{apiurl}}/user/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiRnVsYW5vIiwiZW1haWwiOiJmdWxhbm9AZW1haWwuY29tIiwicGhvbmUiOiIxMjQ0MjExMjQiLCJhdmF0YXJfaW1hZ2UiOm51bGwsImNucGoiOm51bGwsImlhdCI6MTY3MTA2MjA2NiwiZXhwIjoxNjcxMTA1MjY2fQ.TsRMPlXo_HxAaJ0jDpOZq_wtjHBlbCLAbsG-YfFS9Dg
+
+### Register new user
+POST {{apiurl}}/user/register-transporter/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Fulanodadwaawdawe",
+    "email": "teste@gmail.com",
+    "password": "1234567",
+    "phone": "8232524114",
+    "birth_date": "2022-12-11",
+    "user_type": "MOTORISTA",
+    "address_street": "Rua ABC",
+    "address_district": "Center",
+    "address_city": "São Paulo",
+    "address_state": "São Paulo",
+    "address_number": "123",
+    "address_zip_code": "01153000"
+}
+
+    # "address": {
+    #     "street"     : "Rua ABC",
+    #     "district"   : "Center",
+    #     "city"       : "São Paulo",
+    #     "state"      : "São Paulo",
+    #     "number"     : "123",
+    #     "zip_code"   : "01153000"
+    # }
+
+
+### Login user
+POST {{apiurl}}/auth/sessions/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "gsencruz@gmail.com",
+    "password": "1234567"
+}
+
+### Refresh token - Auth
+POST {{apiurl}}/auth/refresh-token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImdzZW5jcnV6QGdtYWlsLmNvbSIsImlhdCI6MTY3NTE2OTE1NiwiZXhwIjoxNjc3NzYxMTU2LCJzdWIiOiIzNWUwZmMyMy1kNzE3LTRmOTctODhiOS03MDM3YWE3YmVlM2MifQ.L6XtjnFxDa2foj161-SrE81xSWXnpeVdrL6yfatqLrE"
+}
+
+### Change Password
+POST {{apiurl}}/user/change-password/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "gsencruz@gmail.com",
+    "password": "1234567",
+    "token": "0e6db81d-80bf-46d2-9e20-6c584ee0ddb8"
+}
+
+### Login Admin
+POST {{apiurl}}/user/login/admin/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "{{$dotenv ADMIN_EMAIL}}",
+    "password": "{{$dotenv ADMIN_PASSWORD}}"
+}
